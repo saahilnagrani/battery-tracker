@@ -30,7 +30,7 @@ A web page can't run when it's closed, so the app has gaps. To log around the cl
    ```sh
    pkg install termux-api jq
    termux-setup-storage
-   curl -O https://raw.githubusercontent.com/<you>/battery-tracker/main/termux/battery-logger.sh
+   curl -O https://raw.githubusercontent.com/saahilnagrani/battery-tracker/main/termux/battery-logger.sh
    chmod +x battery-logger.sh
    ./battery-logger.sh schedule      # logs every 15 min to Documents/battery-log.csv
    ```
