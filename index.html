@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1115">
+  <title>Battery Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Battery Tracker</h1>
+    <span id="device" class="muted">Galaxy S24 Ultra</span>
+  </header>
+
+  <main>
+    <section class="card now">
+      <div class="gauge" id="gauge" aria-hidden="true"><div class="fill" id="gauge-fill"></div></div>
+      <div class="now-text">
+        <div class="level"><span id="level">--</span><small>%</small></div>
+        <div id="state" class="muted">Waiting for battery data…</div>
+        <div id="eta" class="eta"></div>
+      </div>
+    </section>
+
+    <p id="api-warning" class="notice" hidden>
+      This browser doesn't expose the Battery Status API. Open the app in Chrome on Android,
+      or import readings from the Termux logger (see Data below).
+    </p>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Level history</h2>
+        <div class="seg" role="tablist" id="range">
+          <button data-h="24" class="on">24h</button>
+          <button data-h="168">7d</button>
+          <button data-h="720">30d</button>
+        </div>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div class="legend muted"><span class="sw charging"></span>Charging <span class="sw band"></span>20–80% sweet spot</div>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="card">
+      <h2>Recent sessions</h2>
+      <ul id="sessions" class="sessions"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Health log</h2>
+      <p class="muted small">
+        Note down what your phone reports from time to time, e.g. the cycle count under
+        Settings → About phone → Battery information (if your One UI version shows it), or the
+        result of Samsung Members → Diagnostics → Battery status.
+      </p>
+      <form id="health-form" class="health-form">
+        <input type="date" name="date" required>
+        <input type="number" name="cycles" placeholder="Cycles" min="0" inputmode="numeric">
+        <input type="text" name="status" placeholder="Status / capacity (e.g. Good, 96%)">
+        <button type="submit">Add</button>
+      </form>
+      <ul id="health" class="health"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Data</h2>
+      <p class="muted small">
+        Readings are only logged while this app is open. For logging around the clock, run
+        <code>termux/battery-logger.sh</code> and import its CSV here.
+        <span id="count"></span>
+      </p>
+      <div class="actions">
+        <button id="log-now">Log reading now</button>
+        <label class="btn">Import CSV / JSON<input type="file" id="import" accept=".csv,.json,text/csv,application/json" hidden></label>
+        <button id="export-csv">Export CSV</button>
+        <button id="export-json">Export JSON</button>
+        <button id="clear" class="danger">Clear all</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
